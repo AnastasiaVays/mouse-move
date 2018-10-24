@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>Du bist so wunderschön!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+    background-color:grey;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  </style>
+
+<script>
+    const hero = document.querySelector('.hero');
+    const text = hero.querySelector('h1');
+    const walk = 400; // means the amount of px.
+
+    function shadow(e) {
+        //console.log(e);
+        const {offsetWidth: width, offsetHeight:height} = hero;
+        let {offsetX: x, offsetY: y} = e;
+
+        //console.log(this, e.target);
+        if(this !== e.target) {
+            x = x + e.target.offsetLeft;
+            y = y + e.target.offsetTop;
+    }
+        //console.log(x,y);
+        const xWalk = Math.round(x/width * walk) - (walk/2);
+        const yWalk = Math.round(y/width * walk) - (walk/2);
+
+        text.style.textShadow = `
+        ${xWalk}px ${yWalk}px 0 rgba(0,0,255,0.7),
+        ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
+        ${yWalk}px ${xWalk * -1}px 0 rgba(255,255,0,0.7),
+        ${yWalk * -1}px ${xWalk}px 0 rgba(255,0,255,0.7)
+        `;
+
+
+        console.log(xWalk,yWalk);
+
+   }
+
+   //means that our "walk" is 100, but we want to go from 50 to -50, so we need to mention it and get so with the /2 division.
+
+    hero.addEventListener('mouseover', shadow);
+</script>
+</body>
+</html>
